@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  nginx:
+    container_name: "nginx"
+    build:
+      dockerfile: "./docker/nginx/Dockerfile"
+    ports:
+      - "18080:80"
+    volumes:
+      - "./src:/var/www/html"
+
+  php:
+    container_name: "php"
+    build:
+      dockerfile: "./docker/php/Dockerfile"
+    volumes:
+      - "./src:/var/www/html"
+
+  db:
+    container_name: "db"
+    build:
+      dockerfile: "./docker/db/Dockerfile"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - "./docker/db/data:/var/lib/mysql"
+
